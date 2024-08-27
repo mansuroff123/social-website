@@ -1,17 +1,16 @@
-from django.shortcuts import render
-from django.contrib.auth.decorators import login_required
+
 from django.contrib.auth import authenticate, login
+from django.contrib.auth.decorators import login_required
 from django.http import HttpResponse
+from django.shortcuts import render
 
 from .forms import (
     LoginForm,
     ProfileEditForm,
     UserEditForm,
-    UserRegistrationForm
+    UserRegistrationForm,
 )
 from .models import Profile
-
-# Create your views here.
 
 
 def user_login(request):
@@ -27,17 +26,14 @@ def user_login(request):
             if user is not None:
                 if user.is_active:
                     login(request, user)
-                    return HttpResponse("Authenticated successfully")
+                    return HttpResponse('Authenticated successfully')
                 else:
-                    return HttpResponse("Disabled account")
+                    return HttpResponse('Disabled account')
             else:
-                return HttpResponse("Invalid login")
-        else:
-            form = LoginForm()
-        return render(request,
-                      'account/login.html',
-                      {'form': form}
-                      )
+                return HttpResponse('Invalid login')
+    else:
+        form = LoginForm()
+    return render(request, 'account/login.html', {'form': form})
 
 
 @login_required
@@ -57,7 +53,7 @@ def register(request):
             new_user = user_form.save(commit=False)
             # Set the chosen password
             new_user.set_password(user_form.cleaned_data['password'])
-            # Save the user profile
+            # Save the User object
             new_user.save()
             # Create the user profile
             Profile.objects.create(user=new_user)
@@ -71,7 +67,7 @@ def register(request):
     return render(
         request,
         'account/register.html',
-        {'user_form': user_form},
+        {'user_form': user_form}
     )
 
 
@@ -101,6 +97,3 @@ def edit(request):
             'profile_form': profile_form
         },
     )
-
-
-    
