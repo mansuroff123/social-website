@@ -21,7 +21,7 @@ class UserRegistrationForm(forms.Form):
 
     class Meta:
         model = get_user_model()
-        fields = ['username', 'firstname', 'lastname']
+        fields = ['username', 'first_name', 'last_name']
 
     def clean_password2(self):
         cd = self.cleaned_data
@@ -32,7 +32,7 @@ class UserRegistrationForm(forms.Form):
 class UserEditForm(forms.ModelForm):
     class Meta:
         model = get_user_model()
-        fields = ['username', 'firstname', 'lastname']
+        fields = ['username', 'first_name', 'last_name']
 
 
 class ProfileEditForm(forms.ModelForm):
